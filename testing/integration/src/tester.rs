@@ -155,7 +155,7 @@ where
         &mut self,
         address: &Address,
         init_balance: TokenAmount,
-    ) -> Result<()> {
+    ) -> Result<Account> {
         assert_eq!(address.protocol(), Protocol::Delegated);
 
         let state_tree = self
@@ -176,8 +176,9 @@ where
             delegated_address: Some(*address),
         };
 
-        state_tree.set_actor(id, actor_state);
-        Ok(())
+        state_tree
+            .set_actor(id, actor_state);
+        Ok((id, *address))
     }
 
     /// Set a new state in the state tree
